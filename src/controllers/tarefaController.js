@@ -1,25 +1,24 @@
-import Tarefa from "../models/tarefa.js"
-import { bdTarefas } from "../infra/bd.js"
+// Importa o bd.js para poder usar o banco de dados simulado
+import { bdTarefas } from "../bd.js"
 
 class tarefaController {
-  static rotas (app) {
+    static rotas(app){
+        // Rota para o recurso tarefa
+        app.get('/tarefa', tarefaController.listar)
+        app.post('/tarefa', tarefaController.inserir)
+    }
 
-    app.get('/tarefas',  (req, res) => {
-        res.send('Rota ativada com GET e Nodemon')
-      })
+    static listar(req, res){
+        const tarefas = bdTarefas
+        // Devolve a lista de tarefas
+        res.send(tarefas)
+    }
 
-    app.post('/tarefa', (req,res) => {
-      const {titulo, descricao, status, date} = req.body
-      const tarefaAInserir = new Tarefa(titulo, descricao, status, date)
-      bdTarefas.push(tarefaAInserir)
-      const Tarefx = tarefaAInserir;
-      console.log(Tarefx)
-      res.send(`Rota com Post`)
-  })
+    static inserir(req, res){
+        res.send('Rota ativada com POST e recurso tarefa: tarefa deve ser inserida')
+        // Console log do corpo da requisição
+        console.log(req.body)
     }
 }
 
 export default tarefaController
-
-
-
